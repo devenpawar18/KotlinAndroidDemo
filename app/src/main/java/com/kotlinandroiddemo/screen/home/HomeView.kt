@@ -8,12 +8,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.kotlinandroiddemo.R
 import com.kotlinandroiddemo.api.model.Photo
 import com.kotlinandroiddemo.api.model.PhotoInfo
+import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.ArrayList
 import javax.inject.Inject
@@ -68,7 +68,7 @@ class HomeView @Inject constructor() : Fragment(), HomeContract.View, FlickerAda
   }
 
   override fun onItemClick(pPhoto: Photo) {
-    Toast.makeText(this.view!!.context, "Position clicked is " + pPhoto.title, Toast.LENGTH_SHORT).show()
+    context.toast("Position clicked is " + pPhoto.title)
   }
 
   override fun updateView(photoInfo: PhotoInfo) {

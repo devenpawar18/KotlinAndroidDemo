@@ -1,6 +1,5 @@
 package com.kotlinandroiddemo.screen.home
 
-import android.widget.Toast
 import com.kotlinandroiddemo.api.model.PhotoInfo
 import com.kotlinandroiddemo.api.service.flicker.FlickerService
 import com.kotlinandroiddemo.api.service.util.ServiceUtils
@@ -12,6 +11,7 @@ import com.kotlinandroiddemo.util.ViewUtils
 import com.kotlinandroiddemo.util.service.IFailureCallback
 import com.kotlinandroiddemo.util.service.ISuccessCallback
 import io.reactivex.disposables.CompositeDisposable
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 /**
@@ -45,7 +45,7 @@ class HomePresenter @Inject constructor() : HomeContract.Presenter {
 
     val failureCallback = object : IFailureCallback {
       override fun accept(pThrowable: Throwable) {
-        Toast.makeText(homeView!!.getContext(), "Failure", Toast.LENGTH_SHORT).show()
+        homeActivity.toast("Failure")
         homeActivity.getPopupManager().dismissProgress(PROGRESS_FETCH_TAG)
       }
     }

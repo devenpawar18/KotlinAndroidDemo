@@ -2,6 +2,7 @@ package com.kotlinandroiddemo.screen.util
 
 import android.app.ProgressDialog
 import android.content.Context
+import org.jetbrains.anko.indeterminateProgressDialog
 
 /**
  * Created by Deven on 10/23/17.
@@ -10,10 +11,7 @@ class PopupManager(val context: Context) {
   private var progressDialogs = HashMap<String, ProgressDialog>()
 
   fun showProgress(tag: String, message: String) {
-    val progressDialog = ProgressDialog(this.context)
-    progressDialog.setMessage(message)
-    progressDialog.show()
-
+    val progressDialog = context.indeterminateProgressDialog(message)
     this.progressDialogs.put(tag, progressDialog)
   }
 
