@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class SplashView @Inject constructor() : Fragment(), SplashContract.View {
   @Inject
-  protected lateinit var presenter: SplashPresenter
+  lateinit var presenter: SplashPresenter
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -30,15 +30,15 @@ class SplashView @Inject constructor() : Fragment(), SplashContract.View {
 
   override fun onResume() {
     super.onResume()
-    this.presenter.takeView(this)
+    presenter.takeView(this)
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    this.presenter.dropView()
+    presenter.dropView()
   }
 
   override fun getContext(): Context {
-    return this.activity
+    return activity
   }
 }

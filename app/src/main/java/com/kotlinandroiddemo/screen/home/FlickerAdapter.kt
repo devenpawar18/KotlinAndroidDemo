@@ -29,7 +29,7 @@ class FlickerAdapter(private val photos: List<Photo>, private val rowLayout: Int
     }
 
     override fun onClick(pView: View) {
-      val item = photos[this.layoutPosition]
+      val item = photos[layoutPosition]
       onListItemClickListener.onItemClick(item)
     }
   }
@@ -40,13 +40,13 @@ class FlickerAdapter(private val photos: List<Photo>, private val rowLayout: Int
   }
 
   override fun onBindViewHolder(holder: FlickerViewHolder, position: Int) {
-    val photo = this.photos[position]
-    val url = this.context.resources.getString(R.string.flickr_image_url, photo.farm.toString(), photo.server, photo.id.toString(), photo.secret)
-    Glide.with(this.context).load(url).centerCrop().placeholder(R.drawable.flicker_photo).crossFade().into(holder.flickerImage)
+    val photo = photos[position]
+    val url = context.resources.getString(R.string.flickr_image_url, photo.farm.toString(), photo.server, photo.id.toString(), photo.secret)
+    Glide.with(context).load(url).centerCrop().placeholder(R.drawable.flicker_photo).crossFade().into(holder.flickerImage)
   }
 
   override fun getItemCount(): Int {
-    return this.photos.size
+    return photos.size
   }
 
   interface OnListItemClickListener {

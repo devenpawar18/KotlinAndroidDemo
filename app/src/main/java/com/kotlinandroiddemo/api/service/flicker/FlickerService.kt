@@ -12,13 +12,9 @@ import javax.inject.Inject
  */
 @ApplicationScope
 class FlickerService @Inject constructor(eventBus: EventBus) {
-  private var flickerService: IFlickerService
-
-  init {
-    this.flickerService = ServiceAdapterWrapper.wrapService(IFlickerService::class.java, eventBus)
-  }
+  private val flickerService = ServiceAdapterWrapper.wrapService(IFlickerService::class.java, eventBus)
 
   fun getPhotoInfo(method: String, apiKey: String, format: String, noJsonCallback: String, text: String, page: Int): Observable<PhotoInfo> {
-    return this.flickerService.getPhotoInfo(method, apiKey, format, noJsonCallback, text, page)
+    return flickerService.getPhotoInfo(method, apiKey, format, noJsonCallback, text, page)
   }
 }

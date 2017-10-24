@@ -46,25 +46,25 @@ class HomeView @Inject constructor() : Fragment(), HomeContract.View, FlickerAda
     ButterKnife.bind(this, view)
 
     val gridLayoutManager = GridLayoutManager(activity, 3)
-    this.recyclerView.layoutManager = gridLayoutManager
-    this.adapter = FlickerAdapter(this.photos, R.layout.fragment_home_flicker_list_item, this.context, this)
-    this.recyclerView.adapter = this.adapter
+    recyclerView.layoutManager = gridLayoutManager
+    adapter = FlickerAdapter(photos, R.layout.fragment_home_flicker_list_item, context, this)
+    recyclerView.adapter = adapter
 
     return view
   }
 
   override fun onResume() {
     super.onResume()
-    this.presenter.takeView(this)
+    presenter.takeView(this)
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    this.presenter.dropView()
+    presenter.dropView()
   }
 
   override fun getContext(): Context {
-    return this.activity
+    return activity
   }
 
   override fun onItemClick(pPhoto: Photo) {
@@ -72,10 +72,10 @@ class HomeView @Inject constructor() : Fragment(), HomeContract.View, FlickerAda
   }
 
   override fun updateView(photoInfo: PhotoInfo) {
-    val photos = photoInfo.photos.photos as List<Photo>?
-    if (photos != null && !photos.isEmpty()) {
-      this.photos.addAll(photos)
-      this.adapter.notifyDataSetChanged()
+    val photoList = photoInfo.photos.photos as List<Photo>?
+    if (photoList != null && !photoList.isEmpty()) {
+      photos.addAll(photoList)
+      adapter.notifyDataSetChanged()
     }
   }
 }

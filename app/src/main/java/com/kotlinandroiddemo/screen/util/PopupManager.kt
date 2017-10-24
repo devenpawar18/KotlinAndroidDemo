@@ -12,16 +12,16 @@ class PopupManager(val context: Context) {
 
   fun showProgress(tag: String, message: String) {
     val progressDialog = context.indeterminateProgressDialog(message)
-    this.progressDialogs.put(tag, progressDialog)
+    progressDialogs.put(tag, progressDialog)
   }
 
   fun dismissProgress(tag: String): Boolean {
-    val progressDialog: ProgressDialog? = this.progressDialogs.remove(tag)
+    val progressDialog: ProgressDialog? = progressDialogs.remove(tag)
     if (progressDialog == null) {
       return false
-    } else {
-      progressDialog.dismiss()
-      return true
     }
+
+    progressDialog.dismiss()
+    return true
   }
 }

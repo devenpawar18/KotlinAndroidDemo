@@ -28,34 +28,36 @@ class HomePresenter @Inject constructor() : HomeContract.Presenter {
   override fun takeView(homeView: HomeContract.View) {
     this.homeView = ViewUtils.checkNotNull(homeView, "HomeView can't be null")
     this.homeView = homeView
-    this.fetchPhotos()
+    fetchPhotos()
   }
 
   override fun fetchPhotos() {
-    val homeActivity = this.homeView!!.getContext() as HomeActivity
-    homeActivity.getPopupManager().showProgress(PROGRESS_FETCH_TAG, "Fetching Shit...")
-    val fetchObservable = this.flickerService.getPhotoInfo(API_METHOD, API_KEY, API_FORMAT, API_NO_JSON_CALLBACK, "Deven", 1)
+    homeView?.let { view ->
+      val homeActivity = view.getContext() as HomeActivity
+      homeActivity.getPopupManager().showProgress(PROGRESS_FETCH_TAG, "Fetching Shit...")
+      val fetchObservable = flickerService.getPhotoInfo(API_METHOD, API_KEY, API_FORMAT, API_NO_JSON_CALLBACK, "Deven", 1)
 
-    val successCallback = object : ISuccessCallback<PhotoInfo> {
-      override fun accept(pPhotoInfo: PhotoInfo) {
-        homeView!!.updateView(pPhotoInfo)
-        homeActivity.getPopupManager().dismissProgress(PROGRESS_FETCH_TAG)
+      val successCallback = object : ISuccessCallback<PhotoInfo> {
+        override fun accept(pPhotoInfo: PhotoInfo) {
+          view.updateView(pPhotoInfo)
+          homeActivity.getPopupManager().dismissProgress(PROGRESS_FETCH_TAG)
+        }
       }
-    }
 
-    val failureCallback = object : IFailureCallback {
-      override fun accept(pThrowable: Throwable) {
-        homeActivity.toast("Failure")
-        homeActivity.getPopupManager().dismissProgress(PROGRESS_FETCH_TAG)
+      val failureCallback = object : IFailureCallback {
+        override fun accept(pThrowable: Throwable) {
+          homeActivity.toast("Failure")
+          homeActivity.getPopupManager().dismissProgress(PROGRESS_FETCH_TAG)
+        }
       }
-    }
 
-    this.disposables.add(ServiceUtils.defaults(fetchObservable, successCallback, failureCallback))
+      disposables.add(ServiceUtils.defaults(fetchObservable, successCallback, failureCallback))
+    }
   }
 
   override fun dropView() {
-    this.disposables.dispose()
-    this.homeView = null
+    disposables.dispose()
+    homeView = null
   }
 
   override fun nextScreen() {

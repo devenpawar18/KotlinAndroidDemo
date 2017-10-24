@@ -15,21 +15,23 @@ class SplashPresenter @Inject constructor() : SplashContract.Presenter {
   override fun takeView(splashView: SplashContract.View) {
     this.splashView = ViewUtils.checkNotNull(splashView, "SplashView can't be null")
     this.splashView = splashView
-    this.nextScreen()
+    nextScreen()
   }
 
   override fun dropView() {
-    this.splashView = null
+    splashView = null
   }
 
   override fun nextScreen() {
-    val SPLASH_DISPLAY_LENGTH = 1000
+    splashView?.let { view ->
+      val SPLASH_DISPLAY_LENGTH = 1000
 
-    Handler().postDelayed({
-      val splashActivity = this.splashView!!.getContext() as SplashActivity
-      val intent = Intent(splashActivity, HomeActivity::class.java)
-      splashActivity.startActivity(intent)
-      splashActivity.finish()
-    }, SPLASH_DISPLAY_LENGTH.toLong())
+      Handler().postDelayed({
+        val splashActivity = view.getContext() as SplashActivity
+        val intent = Intent(splashActivity, HomeActivity::class.java)
+        splashActivity.startActivity(intent)
+        splashActivity.finish()
+      }, SPLASH_DISPLAY_LENGTH.toLong())
+    }
   }
 }

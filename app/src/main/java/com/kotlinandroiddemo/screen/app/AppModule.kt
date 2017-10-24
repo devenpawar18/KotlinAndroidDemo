@@ -20,26 +20,26 @@ class AppModule(val kotlinAndroidDemoAmmplication: KotlinAndroidDemoApplication)
   init {
     val eventBusBuilder = EventBus.builder()
     eventBusBuilder.throwSubscriberException(true)
-    this.eventBus = eventBusBuilder.build()
+    eventBus = eventBusBuilder.build()
 
-    this.gson = GsonBuilder().create()
+    gson = GsonBuilder().create()
   }
 
   @Provides
   @ApplicationScope
   fun provideKotlinAndroidDemoApplication(): KotlinAndroidDemoApplication {
-    return this.kotlinAndroidDemoAmmplication
+    return kotlinAndroidDemoAmmplication
   }
 
   @Provides
   @ApplicationScope
   fun provideContext(): Context {
-    return this.kotlinAndroidDemoAmmplication
+    return kotlinAndroidDemoAmmplication
   }
 
   @Provides
   @ApplicationScope
   fun provideEventBus(): EventBus {
-    return this.eventBus
+    return eventBus
   }
 }

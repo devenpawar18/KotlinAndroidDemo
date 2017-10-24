@@ -13,6 +13,6 @@ open class BaseActivity : AppCompatActivity() {
 
     KotlinAndroidDemoApplication.getKotlinAndroidDemoApplication().getAppComponent().inject(this)
 
-    this.popupManager = PopupManager(this)
+    popupManager = PopupManager(this)
   }
 }

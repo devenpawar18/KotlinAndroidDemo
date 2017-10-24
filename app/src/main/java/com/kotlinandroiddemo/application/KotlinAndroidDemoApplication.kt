@@ -15,14 +15,14 @@ class KotlinAndroidDemoApplication : Application() {
     instance = this
     super.onCreate()
 
-    this.appComponent = DaggerAppComponent.builder()
+    appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this)).build()
 
-    this.getAppComponent().inject(this)
+    getAppComponent().inject(this)
   }
 
   fun getAppComponent(): AppComponent {
-    return this.appComponent
+    return appComponent
   }
 
   companion object {

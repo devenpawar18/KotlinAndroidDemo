@@ -17,11 +17,11 @@ class HomeActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    this.homeComponent = DaggerHomeComponent.builder()
+    homeComponent = DaggerHomeComponent.builder()
             .appComponent(KotlinAndroidDemoApplication.getKotlinAndroidDemoApplication().getAppComponent())
             .homeModule(HomeModule()).build()
 
-    this.homeComponent.inject(this)
+    homeComponent.inject(this)
 
     setContentView(R.layout.activity_home)
 
@@ -34,10 +34,10 @@ class HomeActivity : BaseActivity() {
   }
 
   fun getHomeComponent(): HomeComponent {
-    return this.homeComponent
+    return homeComponent
   }
 
   fun getPopupManager(): PopupManager {
-    return this.popupManager
+    return popupManager
   }
 }

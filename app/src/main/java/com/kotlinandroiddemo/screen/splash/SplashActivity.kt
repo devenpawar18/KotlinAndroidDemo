@@ -16,11 +16,11 @@ class SplashActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    this.splashComponent = DaggerSplashComponent.builder()
+    splashComponent = DaggerSplashComponent.builder()
             .appComponent(KotlinAndroidDemoApplication.getKotlinAndroidDemoApplication().getAppComponent())
             .splashModule(SplashModule()).build()
 
-    this.splashComponent.inject(this)
+    splashComponent.inject(this)
 
     setContentView(R.layout.activity_splash)
 
@@ -33,6 +33,6 @@ class SplashActivity : BaseActivity() {
   }
 
   fun getSplashComponent(): SplashComponent {
-    return this.splashComponent
+    return splashComponent
   }
 }

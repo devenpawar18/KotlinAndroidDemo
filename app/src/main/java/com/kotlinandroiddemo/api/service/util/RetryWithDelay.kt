@@ -16,24 +16,15 @@ class RetryWithDelay(var countMaximum: Int, var delayMilis: Long) : Function<Obs
             HttpURLConnection.HTTP_FORBIDDEN)
   }
 
-  private var retryCountMaximum: Int
-  private var retryDelayMilis: Long
-  private var retryCount: Int
-
-  init {
-    this.retryCountMaximum = countMaximum
-    this.retryDelayMilis = delayMilis
-    this.retryCount = 0
-  }
-
+  private var retryCount = 0
 
   override fun apply(attempts: Observable<out Throwable>): Observable<*> {
     return attempts.flatMap({ pThrowable ->
-      this.retryCount++
+      retryCount++
       // Depends
       val retry = true
       if (retry) {
-        Observable.timer(this.retryDelayMilis, TimeUnit.MILLISECONDS)
+        Observable.timer(delayMilis, TimeUnit.MILLISECONDS)
       } else {
         Observable.error<Any>(pThrowable)
       }
