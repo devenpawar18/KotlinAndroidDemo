@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class ServiceAdapterWrapper {
   companion object {
-    const val BASE_URL = "https://api.flickr.com/"
+    private const val BASE_URL = "https://api.flickr.com/"
 
     fun <T> wrapService(serviceClass: Class<T>, eventBus: EventBus): T {
       val retrofit = Retrofit.Builder()

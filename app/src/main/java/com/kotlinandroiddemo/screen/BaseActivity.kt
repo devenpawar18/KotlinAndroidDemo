@@ -6,7 +6,7 @@ import com.kotlinandroiddemo.application.KotlinAndroidDemoApplication
 import com.kotlinandroiddemo.screen.util.PopupManager
 
 open class BaseActivity : AppCompatActivity() {
-  protected lateinit var popupManager: PopupManager
+  internal lateinit var popupManager: PopupManager
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

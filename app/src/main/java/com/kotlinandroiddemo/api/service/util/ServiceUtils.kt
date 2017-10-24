@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit
  */
 class ServiceUtils {
   companion object {
-    const val RETRY_COUNT = 5
-    val RETRY_DELAY_MILLIS: Long = TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS)
-    val TIMEOUT_MILIS: Long = TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS)
+    private const val RETRY_COUNT = 5
+    private val RETRY_DELAY_MILLIS: Long = TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS)
+    private val TIMEOUT_MILIS: Long = TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS)
 
     fun <T> defaults(observable: Observable<T>, successCallback: ISuccessCallback<T>, failureCallback: IFailureCallback): Disposable {
       return defaults(observable, successCallback, failureCallback, TIMEOUT_MILIS, TimeUnit.MILLISECONDS)
@@ -24,6 +24,7 @@ class ServiceUtils {
       return observable.retryWhen(RetryWithDelay(RETRY_COUNT, RETRY_DELAY_MILLIS))
               .timeout(timeout, timeoutTimeUnit)
               .subscribeOn(AndroidSchedulers.mainThread())
+              .observeOn(AndroidSchedulers.mainThread())
               .subscribe(successCallback, failureCallback)
     }
   }
