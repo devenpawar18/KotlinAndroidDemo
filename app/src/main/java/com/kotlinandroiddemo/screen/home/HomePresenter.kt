@@ -3,6 +3,7 @@ package com.kotlinandroiddemo.screen.home
 import com.kotlinandroiddemo.api.model.PhotoInfo
 import com.kotlinandroiddemo.api.service.flicker.FlickerService
 import com.kotlinandroiddemo.api.service.util.ApiError
+import com.kotlinandroiddemo.api.service.util.ApiErrorCode
 import com.kotlinandroiddemo.api.service.util.ErrorUtils
 import com.kotlinandroiddemo.api.service.util.ServiceUtils
 import com.kotlinandroiddemo.util.ApiUtils.Companion.API_FORMAT
@@ -51,7 +52,11 @@ class HomePresenter @Inject constructor() : HomeContract.Presenter {
             view.updateView(response.body())
           } else {
             val apiError = ErrorUtils.parseError(response)
-            homeActivity.toast("Failure" + "Status Code ${apiError.statusCode} and error message ${apiError.message}")
+            when (apiError.statusCode) {
+              ApiErrorCode.codeExpired -> homeActivity.toast("code expired")
+              ApiErrorCode.emailAlreadyExists -> homeActivity.toast("email already exists")
+              else -> homeActivity.toast("don't know")
+            }
           }
         }
       }

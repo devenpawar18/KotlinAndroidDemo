@@ -6,6 +6,6 @@ package com.kotlinandroiddemo.api.service.util
 
 
 class ApiError {
-  val statusCode: Int = 0
-  val message: String? = null
+  var statusCode: Int = 0
+  var message: String? = null
 }
