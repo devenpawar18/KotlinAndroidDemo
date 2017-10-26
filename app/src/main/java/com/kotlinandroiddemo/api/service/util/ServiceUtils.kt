@@ -5,6 +5,7 @@ import com.kotlinandroiddemo.util.service.ISuccessCallback
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 /**
@@ -23,7 +24,7 @@ class ServiceUtils {
     fun <T> defaults(observable: Observable<T>, successCallback: ISuccessCallback<T>, failureCallback: IFailureCallback, timeout: Long, timeoutTimeUnit: TimeUnit): Disposable {
       return observable.retryWhen(RetryWithDelay(RETRY_COUNT, RETRY_DELAY_MILLIS))
               .timeout(timeout, timeoutTimeUnit)
-              .subscribeOn(AndroidSchedulers.mainThread())
+              .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(successCallback, failureCallback)
     }
