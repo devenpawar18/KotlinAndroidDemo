@@ -2,6 +2,7 @@ package com.kotlinandroiddemo.api.service.flicker
 
 import com.kotlinandroiddemo.api.model.PhotoInfo
 import io.reactivex.Observable
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,5 +11,5 @@ import retrofit2.http.Query
  */
 interface IFlickerService {
   @GET("services/rest")
-  fun getPhotoInfo(@Query("method") method: String, @Query("api_key") apiKey: String, @Query("format") format: String, @Query("nojsoncallback") noJsonCallback: String, @Query("text") text: String, @Query("page") page: Int): Observable<PhotoInfo>
+  fun getPhotoInfo(@Query("method") method: String, @Query("api_key") apiKey: String, @Query("format") format: String, @Query("nojsoncallback") noJsonCallback: String, @Query("text") text: String, @Query("page") page: Int): Observable<Response<PhotoInfo>>
 }

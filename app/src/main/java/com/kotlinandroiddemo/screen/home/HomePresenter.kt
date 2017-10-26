@@ -2,6 +2,8 @@ package com.kotlinandroiddemo.screen.home
 
 import com.kotlinandroiddemo.api.model.PhotoInfo
 import com.kotlinandroiddemo.api.service.flicker.FlickerService
+import com.kotlinandroiddemo.api.service.util.ApiError
+import com.kotlinandroiddemo.api.service.util.ErrorUtils
 import com.kotlinandroiddemo.api.service.util.ServiceUtils
 import com.kotlinandroiddemo.util.ApiUtils.Companion.API_FORMAT
 import com.kotlinandroiddemo.util.ApiUtils.Companion.API_METHOD
@@ -11,7 +13,12 @@ import com.kotlinandroiddemo.util.ViewUtils
 import com.kotlinandroiddemo.util.service.IFailureCallback
 import com.kotlinandroiddemo.util.service.ISuccessCallback
 import io.reactivex.disposables.CompositeDisposable
+import okio.Timeout
 import org.jetbrains.anko.toast
+import retrofit2.HttpException
+import retrofit2.Response
+import java.io.IOException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 /**
@@ -37,16 +44,26 @@ class HomePresenter @Inject constructor() : HomeContract.Presenter {
       homeActivity.getPopupManager().showProgress(PROGRESS_FETCH_TAG, "Fetching Shit...")
       val fetchObservable = flickerService.getPhotoInfo(API_METHOD, API_KEY, API_FORMAT, API_NO_JSON_CALLBACK, "Deven", 1)
 
-      val successCallback = object : ISuccessCallback<PhotoInfo> {
-        override fun accept(pPhotoInfo: PhotoInfo) {
-          view.updateView(pPhotoInfo)
+      val successCallback = object : ISuccessCallback<Response<PhotoInfo>> {
+        override fun accept(response: Response<PhotoInfo>) {
           homeActivity.getPopupManager().dismissProgress(PROGRESS_FETCH_TAG)
+          if (response.isSuccessful) {
+            view.updateView(response.body())
+          } else {
+            val apiError = ErrorUtils.parseError(response)
+            homeActivity.toast("Failure" + "Status Code ${apiError.statusCode} and error message ${apiError.message}")
+          }
         }
       }
 
       val failureCallback = object : IFailureCallback {
         override fun accept(pThrowable: Throwable) {
-          homeActivity.toast("Failure")
+          when (pThrowable) {
+            is HttpException -> homeActivity.toast("HTTP Exception" + pThrowable.response().code())
+            is IOException -> homeActivity.toast("HTTP Exception" + pThrowable.message)
+            is SocketTimeoutException -> homeActivity.toast("Timeout BC" + pThrowable.message)
+            else -> homeActivity.toast("Other Error BC" + pThrowable.message)
+          }
           homeActivity.getPopupManager().dismissProgress(PROGRESS_FETCH_TAG)
         }
       }

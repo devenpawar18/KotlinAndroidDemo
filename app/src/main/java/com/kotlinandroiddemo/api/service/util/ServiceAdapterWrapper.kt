@@ -16,13 +16,24 @@ class ServiceAdapterWrapper {
 
     fun <T> wrapService(serviceClass: Class<T>, eventBus: EventBus): T {
       val retrofit = Retrofit.Builder()
-              .baseUrl(BASE_URL)
-              .client(getHttpCLient())
-              .addConverterFactory(GsonConverterFactory.create())
-              .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-              .build()
+        .baseUrl(BASE_URL)
+        .client(getHttpCLient())
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
 
       return retrofit.create(serviceClass)
+    }
+
+    fun wrapService(): Retrofit {
+      val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(getHttpCLient())
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
+
+      return retrofit
     }
 
     fun getHttpCLient(): OkHttpClient {
